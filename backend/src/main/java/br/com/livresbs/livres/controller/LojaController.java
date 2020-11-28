@@ -74,7 +74,7 @@ public class LojaController {
     }
 
     @GetMapping("/pedidos/salvos")
-    public PedidoDTO consultarPedidos(
+    public ItensDePedidoDTO consultarPedidos(
             @RequestParam(value = "status") StatusPedido status){
 
         return  pedidoService.consultarPedido(status);

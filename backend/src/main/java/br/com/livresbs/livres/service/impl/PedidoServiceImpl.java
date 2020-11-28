@@ -1,14 +1,7 @@
 package br.com.livresbs.livres.service.impl;
 
 import br.com.livresbs.livres.config.properties.MessageProperty;
-import br.com.livresbs.livres.dto.AlteracaoItemCarrinhoDTO;
-import br.com.livresbs.livres.dto.AvaliacaoPedidoDTO;
-import br.com.livresbs.livres.dto.CheckoutDTO;
-import br.com.livresbs.livres.dto.FinalizarPedidoDTO;
-import br.com.livresbs.livres.dto.MetodoPagamentoDTO;
-import br.com.livresbs.livres.dto.OperacaoAvaliacaoPedido;
-import br.com.livresbs.livres.dto.PedidoDTO;
-import br.com.livresbs.livres.dto.ProdutoCompradoDTO;
+import br.com.livresbs.livres.dto.*;
 import br.com.livresbs.livres.exception.CarrinhoVazioException;
 import br.com.livresbs.livres.exception.LivresException;
 import br.com.livresbs.livres.model.Carrinho;
@@ -32,10 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -173,11 +163,51 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public PedidoDTO consultarPedido(StatusPedido status){
+    public ItensDePedidoDTO consultarPedido(StatusPedido status){
         List<Pedido> pedidos = pedidoRepository.findByStatus(status);
-        return PedidoDTO.builder()
-                .pedidos(pedidos)
-                .build();
+        ItensDePedidoDTO itensDePedido = new ItensDePedidoDTO();
+        List<PedidoDTO> listaPedido = new LinkedList<PedidoDTO>();
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        ConsumidorDTO consumidorDTO = new ConsumidorDTO();
+        List<ProdutoCompradoDTO> listaProdutos = new LinkedList<ProdutoCompradoDTO>();
+        ProdutoCompradoDTO produto = new ProdutoCompradoDTO();
+        MetodoPagamentoDTO metodoPagamentoDTO = new MetodoPagamentoDTO();
+        EnderecoEntregaDTO enderecoEntregaDTO = new EnderecoEntregaDTO();
+        for (Pedido p: pedidos) {
+            for (ItemPedido iten: p.getItemPedidos()) {
+                produto.setNome(iten.getCotacao().getProduto().getNome());
+                produto.setPreco(iten.getCotacao().getProduto().getPreco());
+                produto.setQuantidade(iten.getQuantidade());
+                listaProdutos.add(produto);
+            }
+            consumidorDTO.builder()
+                    .nome(p.getConsumidor().getNome() + " " + p.getConsumidor().getSobrenome())
+                    .build();
+
+            metodoPagamentoDTO.builder()
+                    .nome(p.getMeioPagamento().getNome())
+                    .meiosPagamento(p.getMeioPagamento().getMetodosPagamento().stream().map(MetodoPagamento::getNome)
+                            .collect(Collectors.toList()))
+                    .build();
+
+            enderecoEntregaDTO.builder()
+                    .CEP(p.getEnderecoEntrega().getCEP())
+                    .endereco(p.getEnderecoEntrega().getEndereco())
+                    .numero(p.getEnderecoEntrega().getCEP())
+                    .complemento(p.getEnderecoEntrega().getComplemento())
+                    .build();
+
+            pedidoDTO.builder()
+                    .consumidor(consumidorDTO)
+                    .enderecoEntrega(enderecoEntregaDTO)
+                    .metodoPagamento(metodoPagamentoDTO)
+                    .produtos(listaProdutos)
+                    .valorTotal(p.getValorTotal())
+                    .build();
+
+            listaPedido.add(pedidoDTO);
+        }
+        return ItensDePedidoDTO.builder().pedidos(listaPedido).build();
     }
 
     @Override
