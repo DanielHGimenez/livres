@@ -180,30 +180,30 @@ public class PedidoServiceImpl implements PedidoService {
                 produto.setQuantidade(iten.getQuantidade());
                 listaProdutos.add(produto);
             }
-            consumidorDTO.builder()
-                    .nome(p.getConsumidor().getNome() + " " + p.getConsumidor().getSobrenome())
-                    .build();
+            consumidorDTO = ConsumidorDTO.builder()
+                            .nome(p.getConsumidor().getNome() + " " + p.getConsumidor().getSobrenome())
+                            .build();
 
-            metodoPagamentoDTO.builder()
-                    .nome(p.getMeioPagamento().getNome())
-                    .meiosPagamento(p.getMeioPagamento().getMetodosPagamento().stream().map(MetodoPagamento::getNome)
-                            .collect(Collectors.toList()))
-                    .build();
+            metodoPagamentoDTO = MetodoPagamentoDTO.builder()
+                                .nome(p.getMeioPagamento().getNome())
+                                .meiosPagamento(p.getMeioPagamento().getMetodosPagamento().stream().map(MetodoPagamento::getNome)
+                                    .collect(Collectors.toList()))
+                                .build();
 
-            enderecoEntregaDTO.builder()
-                    .CEP(p.getEnderecoEntrega().getCEP())
-                    .endereco(p.getEnderecoEntrega().getEndereco())
-                    .numero(p.getEnderecoEntrega().getCEP())
-                    .complemento(p.getEnderecoEntrega().getComplemento())
-                    .build();
+            enderecoEntregaDTO = EnderecoEntregaDTO.builder()
+                                .CEP(p.getEnderecoEntrega().getCEP())
+                                .endereco(p.getEnderecoEntrega().getEndereco())
+                                .numero(p.getEnderecoEntrega().getCEP())
+                                .complemento(p.getEnderecoEntrega().getComplemento())
+                                .build();
 
-            pedidoDTO.builder()
-                    .consumidor(consumidorDTO)
-                    .enderecoEntrega(enderecoEntregaDTO)
-                    .metodoPagamento(metodoPagamentoDTO)
-                    .produtos(listaProdutos)
-                    .valorTotal(p.getValorTotal())
-                    .build();
+            pedidoDTO = PedidoDTO.builder()
+                        .consumidor(consumidorDTO)
+                        .enderecoEntrega(enderecoEntregaDTO)
+                        .metodoPagamento(metodoPagamentoDTO)
+                        .produtos(listaProdutos)
+                        .valorTotal(p.getValorTotal())
+                        .build();
 
             listaPedido.add(pedidoDTO);
         }
