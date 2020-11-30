@@ -19,7 +19,8 @@ public class PedidoDTO {
     private BigDecimal valorTotal;
     private ConsumidorDTO consumidor;
     private List<ProdutoCompradoDTO> produtos;
-    private MetodoPagamentoDTO metodoPagamento;
+    private String metodoPagamento;
+    private String meioPagamento;
     private EnderecoEntregaDTO enderecoEntrega;
 
 }
