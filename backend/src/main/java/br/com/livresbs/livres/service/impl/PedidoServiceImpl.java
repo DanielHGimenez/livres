@@ -165,16 +165,14 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public ItensDePedidoDTO consultarPedido(StatusPedido status){
         List<Pedido> pedidos = pedidoRepository.findByStatus(status);
-        ItensDePedidoDTO itensDePedido = new ItensDePedidoDTO();
         List<PedidoDTO> listaPedido = new LinkedList<PedidoDTO>();
-        PedidoDTO pedidoDTO = new PedidoDTO();
-        ConsumidorDTO consumidorDTO = new ConsumidorDTO();
+        ConsumidorDTO consumidorDTO = null;
         List<ProdutoCompradoDTO> listaProdutos = new LinkedList<ProdutoCompradoDTO>();
-        ProdutoCompradoDTO produto = new ProdutoCompradoDTO();
-        MetodoPagamentoDTO metodoPagamentoDTO = new MetodoPagamentoDTO();
-        EnderecoEntregaDTO enderecoEntregaDTO = new EnderecoEntregaDTO();
+        MetodoPagamentoDTO metodoPagamentoDTO = null;
+        EnderecoEntregaDTO enderecoEntregaDTO = null;
         for (Pedido p: pedidos) {
             for (ItemPedido iten: p.getItemPedidos()) {
+                ProdutoCompradoDTO produto = new ProdutoCompradoDTO();
                 produto.setNome(iten.getCotacao().getProduto().getNome());
                 produto.setPreco(iten.getCotacao().getProduto().getPreco());
                 produto.setQuantidade(iten.getQuantidade());
@@ -197,13 +195,13 @@ public class PedidoServiceImpl implements PedidoService {
                                 .complemento(p.getEnderecoEntrega().getComplemento())
                                 .build();
 
-            pedidoDTO = PedidoDTO.builder()
-                        .consumidor(consumidorDTO)
-                        .enderecoEntrega(enderecoEntregaDTO)
-                        .metodoPagamento(metodoPagamentoDTO)
-                        .produtos(listaProdutos)
-                        .valorTotal(p.getValorTotal())
-                        .build();
+            PedidoDTO pedidoDTO = PedidoDTO.builder()
+                    .consumidor(consumidorDTO)
+                    .enderecoEntrega(enderecoEntregaDTO)
+                    .metodoPagamento(metodoPagamentoDTO)
+                    .produtos(listaProdutos)
+                    .valorTotal(p.getValorTotal())
+                    .build();
 
             listaPedido.add(pedidoDTO);
         }
