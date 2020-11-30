@@ -113,7 +113,7 @@ public class PedidoServiceImpl implements PedidoService {
         endereco.setCidade(body.getCidade());
         endereco.setEstado(body.getEstado());
         endereco.setEndereco(body.getEndereco());
-        endereco.setComplemento(body.getEndereco());
+        endereco.setComplemento(body.getComplemento());
         endereco.setNumero(body.getNumero());
 
         enderecoEntregaRepository.save(endereco);
