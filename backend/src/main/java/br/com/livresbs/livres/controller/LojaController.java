@@ -82,7 +82,7 @@ public class LojaController {
 
     @PutMapping("/pedidos/{idPedido}/")
     public void salvarResultadoAvaliacao(@PathVariable Long idPedido, @RequestBody @Valid AvaliacaoPedidoDTO body) {
-
+        pedidoService.avaliarPedido(idPedido, body);
     }
 
     

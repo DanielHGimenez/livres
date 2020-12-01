@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -109,6 +110,7 @@ public class PedidoServiceImpl implements PedidoService {
     @Transactional
     public void salvarPedido(String cpfConsumidor, FinalizarPedidoDTO body) {
         EnderecoEntrega endereco = new EnderecoEntrega();
+        endereco.setDestinatario(body.getDestinatario());
         endereco.setCEP(body.getCep());
         endereco.setCidade(body.getCidade());
         endereco.setEstado(body.getEstado());
@@ -213,18 +215,21 @@ public class PedidoServiceImpl implements PedidoService {
 
         if (avaliacao.getOperacao().equals(OperacaoAvaliacaoPedido.CANCELAR_PEDIDO)) {
             pedido.setStatus(StatusPedido.CANCELADO);
-        }
-        else {
+        } else {
             pedido.setStatus(StatusPedido.PENDENTE_ENTREGA);
-            pedidoRepository.save(pedido);
 
-            if (nonNull(avaliacao.getAlteracoes()))
+            if (nonNull(avaliacao.getAlteracoes())) {
+                BigDecimal valorTotal = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_DOWN);
                 avaliacao.getAlteracoes().forEach((AlteracaoItemCarrinhoDTO alteracao) -> {
                     ItemPedido item = itemPedidoRepository.findById(alteracao.getId())
                             .orElseThrow(() -> new LivresException("item do pedido, não achado"));
                     item.setQuantidade(alteracao.getQuantidade());
                     itemPedidoRepository.save(item);
+                    valorTotal.add(BigDecimal.valueOf(item.getQuantidade()).multiply(item.getCotacao().getPreco()));
                 });
+                pedido.setValorTotal(valorTotal);
+            }
         }
+        pedidoRepository.save(pedido);
     }
 }
