@@ -167,14 +167,14 @@ public class PedidoServiceImpl implements PedidoService {
         List<Pedido> pedidos = pedidoRepository.findByStatus(status);
         List<PedidoDTO> listaPedido = new LinkedList<PedidoDTO>();
         ConsumidorDTO consumidorDTO = null;
-        List<ProdutoCompradoDTO> listaProdutos = new LinkedList<ProdutoCompradoDTO>();
         EnderecoEntregaDTO enderecoEntregaDTO = null;
         for (Pedido p: pedidos) {
+            List<ProdutoCompradoDTO> listaProdutos = new LinkedList<ProdutoCompradoDTO>();
             for (ItemPedido iten: p.getItemPedidos()) {
                 ProdutoCompradoDTO produto = new ProdutoCompradoDTO();
                 produto.setId(iten.getId());
                 produto.setNome(iten.getCotacao().getProduto().getNome());
-                produto.setPreco(iten.getCotacao().getProduto().getPreco());
+                produto.setPreco(iten.getCotacao().getPreco());
                 produto.setQuantidade(iten.getQuantidade());
                 listaProdutos.add(produto);
             }
