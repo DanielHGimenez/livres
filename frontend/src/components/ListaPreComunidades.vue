@@ -13,10 +13,7 @@
         <tr v-for="precomunidade in precomunidades" :key="precomunidade.id">
           <td>{{ precomunidade.nome }}</td>
           <td class="row justify-content-end">
-            <router-link
-              class="btn btn-outline-primary mr-3"
-              :to="{name: 'CadPreComunidade', params:{precomunidadeAlterar: precomunidade}}"
-            >
+            <router-link class="btn btn-outline-primary mr-3" to="precomunidades/cadastro">
               <i class="fas fa-pencil-alt"></i>
             </router-link>
             <a

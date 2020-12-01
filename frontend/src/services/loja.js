@@ -8,7 +8,7 @@ export default {
             }
         });
     },
-    
+
     postCheckout: (cpf, body) => {
         return http.post("/api/loja/pedidos", body, {
             headers: {
@@ -43,4 +43,17 @@ export default {
             quantidade: quantidade
         }, { headers: { cpf: cpf } });
     },
+
+    consultarPedidos: (status) => {
+        return http.get("/api/loja/pedidos/salvos", {
+            params: {
+                status
+            }
+        });
+    },
+
+    salvarResultadoAvaliacao: (idPedido, body) => {
+        return http.put("/api/loja/pedidos/" + idPedido + "/", body);
+    }
+
 };

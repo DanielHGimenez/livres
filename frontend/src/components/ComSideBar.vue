@@ -17,7 +17,7 @@
       <ul class="navbar-nav my-2 my-lg-0">
         <li class="nav-item">
           <router-link
-            to="/carrinho"
+            to="/checkout"
             class="nav-link"
             id="navbarDropdownMenuLink"
             role="button"

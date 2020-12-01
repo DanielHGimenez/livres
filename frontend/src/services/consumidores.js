@@ -5,16 +5,12 @@ export default {
     return http.get("api/consumidor");
   },
 
+  inserir: (consumidor) => {
+    return http.post("api/consumidor/", consumidor);
+  },
+
   buscarPorCpf: (cpf) => {
     return http.get("api/consumidor/" + cpf);
-  },
-
-  inserir: (consumidor) => {
-    return http.post("api/consumidor", consumidor);
-  },
-
-  alterar: (consumidor) => {
-    return http.put("api/consumidor", consumidor);
   },
 
   delete: (cpf) => {
