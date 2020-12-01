@@ -13,9 +13,10 @@
                 class="form-control"
                 v-model.trim="precomunidade.nome"
               />
-              <label for="nome">Nome</label>
+              <label :class="{active: preenchido}" for="nome">Nome</label>
             </div>
             <div class="text-right">
+              <router-link to="/precomunidades" type="button" class="btn">Cancelar</router-link>
               <button type="button" class="btn btn-primary" @click="cadastrar()">
                 <i class="fa fa-floppy-o"></i> Cadastrar
               </button>
@@ -31,19 +32,26 @@
 import PreComunidade from "../services/precomunidade";
 
 export default {
+  props: {
+    precomunidadeAlterar: {
+      type: Object
+    }
+  },
   data() {
     return {
-      precomunidade: { nome: "" }
+      preenchido: false,
+      precomunidade: { id: 0, nome: "" }
     };
   },
   methods: {
     cadastrar: function() {
-      // if cpf existe
-      // alterar
-      // else
-      this.SalvarPreComunidade();
+      if (this.precomunidade.id != 0) {
+        this.AlterarPreComunidade();
+      } else {
+        this.AdicionarPreComunidade();
+      }
     },
-    SalvarPreComunidade: function() {
+    AdicionarPreComunidade: function() {
       PreComunidade.inserir(this.precomunidade)
         .then(() => {
           this.$toaster.success("Pré-comunidade adicionada com sucesso");
@@ -52,9 +60,26 @@ export default {
         .catch(() => {
           this.$toaster.error("Não foi possível adicionar pré-comunidade");
         });
+    },
+    AlterarPreComunidade: function() {
+      PreComunidade.alterar(this.precomunidade)
+        .then(() => {
+          this.$toaster.success("Pré-comunidade alterada com sucesso");
+          this.$router.push("/precomunidades");
+        })
+        .catch(() => {
+          this.$toaster.success("Não foi possível alterar pré-comunidade");
+        });
+    }
+  },
+  created() {
+    if (this.precomunidadeAlterar != null) {
+      this.preenchido = true;
+      this.precomunidade = this.precomunidadeAlterar;
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+</style>

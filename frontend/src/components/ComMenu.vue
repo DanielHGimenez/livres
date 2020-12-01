@@ -38,13 +38,8 @@ export default {
         },
         {
           icon: "fa fa-shopping-cart fa-2x",
-          name: "Carinho",
-          href: "/carinho"
-        },
-        {
-          icon: "fa fa-check-square fa-2x",
-          name: "Aprovação de Pedidos",
-          href: "/aprovacaoPedidos"
+          name: "Carrinho",
+          href: "/carrinho"
         }
       ]
     };

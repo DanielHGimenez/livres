@@ -5,7 +5,7 @@
     <table class="container table">
       <thead class="thead">
         <tr>
-          <th scope="col">Name</th>
+          <th scope="col">Nome</th>
           <th scope="col">Sobrenome</th>
           <th scope="col">CPF</th>
           <th scope="col">Pré-comunidade</th>
@@ -17,9 +17,12 @@
           <td>{{ consumidor.nome }}</td>
           <td>{{ consumidor.sobrenome }}</td>
           <td>{{ consumidor.cpf }}</td>
-          <td>{{ consumidor.precomunidade }}</td>
+          <td>{{ consumidor.precomunidade }} - {{ consumidor.nomeprecomunidade }}</td>
           <td class="row justify-content-end">
-            <router-link class="btn btn-outline-primary mr-3" to="consumidores/cadastro">
+            <router-link
+              class="btn btn-outline-primary mr-3"
+              :to="{name: 'CadConsumidores', params:{consumidorAlterar: consumidor}}"
+            >
               <i class="fas fa-pencil-alt"></i>
             </router-link>
             <a
@@ -48,6 +51,7 @@
 
 <script>
 import Consumidores from "../services/consumidores";
+import PreComunidades from "../services/precomunidade";
 import modalDelete from "./modalDelete";
 
 export default {
@@ -64,7 +68,18 @@ export default {
     ListarConsumidores: function() {
       Consumidores.listar()
         .then(result => {
-          this.consumidores = result.data;
+          result.data.forEach(data => {
+            PreComunidades.buscarPorId(data.precomunidade).then(result => {
+              this.consumidores.push({
+                nome: data.nome,
+                sobrenome: data.sobrenome,
+                cpf: data.cpf,
+                senha: data.senha,
+                precomunidade: data.precomunidade,
+                nomeprecomunidade: result.data.nome
+              });
+            });
+          });
         })
         .catch(() => {
           this.$toaster.error("Erro ao carregar lista de consumidores");

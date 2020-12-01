@@ -4,47 +4,37 @@
       <div class="card">
         <div class="card-header">Carrinho</div>
         <div class="card-body">
-          <div v-show="!produtos.length">
-             <h5 class="text-center">{{ info }}</h5>
+          <div class="table-responsive">
+            <table
+              id="dtBasicExample"
+              class="table table-bordered table-sm"
+              cellspacing="0"
+              width="100%"
+            >
+              <thead class>
+                <tr>
+                  <th class="th-sm">Nome</th>
+                  <th class="th-sm text-right">Quantidade</th>
+                  <th class="th-sm text-right">Preço</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="produto in produtos" :key="produto.id">
+                  <td>{{ produto.nome }}</td>
+                  <td class="text-right">{{ produto.quantidade }}</td>
+                  <td class="text-right">{{ produto.preco }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div v-show="produtos.length">
-            <div class="table-responsive">
-              <table
-                id="dtBasicExample"
-                class="table table-bordered table-sm"
-                cellspacing="0"
-                width="100%"
-              >
-                <thead class="thead-dark">
-                  <tr>
-                    <th class="th-sm">Nome</th>
-                    <th class="th-sm text-right">Quantidade</th>
-                    <th class="th-sm text-right">Preço</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="produto in produtos" :key="produto.id">
-                    <td>{{ produto.nome }}</td>
-                    <td class="text-right">{{ produto.quantidade }}</td>
-                    <td class="text-right">{{ produto.preco }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="text-right">
-              <h4>Valor total: {{ valorTotal }}</h4>
-            </div>
-            <div class="text-right">
-              <button
-                type="button"
-                class="btn btn-primary"
-                @click="next()"
-                :disabled="!produtos.length"
-              >
-                Continuar
-                <i class="fa fa-share"></i>
-              </button>
-            </div>
+          <div class="text-right">
+            <h4>Valor total: {{ valorTotal }}</h4>
+          </div>
+          <div class="text-right">
+            <button type="button" class="btn btn-primary" @click="next()">
+              Continuar
+              <i class="fa fa-share"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -62,7 +52,7 @@
                 class="form-control"
                 v-model.trim="nome"
               />
-              <label for="nome">Nome</label>
+              <label for="nome">Nome do destinatario</label>
             </div>
             <div class="row">
               <div class="col-md-2">
@@ -87,7 +77,7 @@
                     class="form-control"
                     v-model.trim="estado"
                   />
-                  <label for="estado" :class="{ active: estado }">Estado</label>
+                  <label for="estado" :class="{ 'active': estado }">Estado</label>
                 </div>
               </div>
               <div class="col-md-4">
@@ -99,7 +89,7 @@
                     class="form-control"
                     v-model.trim="cidade"
                   />
-                  <label for="cidade" :class="{ active: cidade }">Cidade</label>
+                  <label for="cidade" :class="{ 'active': cidade }">Cidade</label>
                 </div>
               </div>
               <div class="col-md-4">
@@ -111,7 +101,7 @@
                     class="form-control"
                     v-model.trim="bairro"
                   />
-                  <label for="bairro" :class="{ active: bairro }">Bairro</label>
+                  <label for="bairro" :class="{ 'active': bairro }">Bairro</label>
                 </div>
               </div>
             </div>
@@ -125,9 +115,7 @@
                     class="form-control"
                     v-model.trim="endereco"
                   />
-                  <label for="endereco" :class="{ active: endereco }"
-                    >Endereço</label
-                  >
+                  <label for="endereco" :class="{ 'active': endereco }">Endereço</label>
                 </div>
               </div>
               <div class="col-md-2">
@@ -156,11 +144,11 @@
               </div>
             </div>
             <div class="text-right">
-              <button type="button" class="btn btn-primary" @click="prev()">
+              <button id="btn-voltar-endereco" type="button" class="btn btn-primary" @click="prev()">
                 Voltar
                 <i class="fa fa-reply"></i>
               </button>
-              <button type="button" class="btn btn-primary" @click="next()">
+              <button id="btn-continuar-endereco" type="button" class="btn btn-primary" @click="next()">
                 Continuar
                 <i class="fa fa-share"></i>
               </button>
@@ -176,15 +164,13 @@
           <form>
             <div class="pt-3"></div>
             <div class="select">
-              <select class="select-text" required v-model="metodoPagamento">
+              <select id="metodo" class="select-text" required v-model="metodoPagamento">
                 <option disabled selected></option>
                 <option
                   v-for="option in metodosPagamento"
                   v-bind:value="option.nome"
                   :key="option.nome"
-                >
-                  {{ option.nome }}
-                </option>
+                >{{ option.nome }}</option>
               </select>
               <span class="select-highlight"></span>
               <span class="select-bar"></span>
@@ -193,28 +179,26 @@
             <div class="pt-3"></div>
             <div class="pt-3"></div>
             <div class="select" v-show="metodoPagamento">
-              <select class="select-text" required v-model="meioPagamento">
+              <select id="meio" class="select-text" required v-model="meioPagamento">
                 <option disabled selected></option>
                 <option
                   v-for="option in getMeiosPagamento()"
                   v-bind:value="option"
                   :key="option"
-                >
-                  {{ option }}
-                </option>
-                >
+                >{{ option }}</option>>
               </select>
               <span class="select-highlight"></span>
               <span class="select-bar"></span>
-              <label class="select-label">Forma de Pagamento:</label>
+              <label class="select-label">Meio de Pagamento:</label>
             </div>
             <div class="pt-3"></div>
             <div class="text-right">
-              <button type="button" class="btn btn-primary" @click="prev()">
+              <button id="btn-voltar-pagamento" type="button" class="btn btn-primary" @click="prev()">
                 Voltar
                 <i class="fa fa-reply"></i>
               </button>
               <button
+                id="btn-continuar-pagamento"
                 type="button"
                 class="btn btn-primary"
                 @click="next()"
@@ -235,49 +219,49 @@
           <div class="card">
             <div class="card-header">Dados de Entrega</div>
             <div class="card-body">
-              <div class="row">
+              <div id="nome" class="row">
                 <label class="col">
                   <span class="font-weight-bold">Nome:</span>
                   {{ nome }}
                 </label>
               </div>
-              <div class="row">
+              <div id="cep-endereco" class="row">
                 <label class="col">
                   <span class="font-weight-bold">CEP:</span>
                   {{ cep }}
                 </label>
               </div>
-              <div class="row">
+              <div id="uf-endereco" class="row">
                 <label class="col">
                   <span class="font-weight-bold">UF:</span>
                   {{ estado }}
                 </label>
               </div>
-              <div class="row">
+              <div id="cidade-endereco" class="row">
                 <label class="col">
                   <span class="font-weight-bold">Cidade:</span>
                   {{ cidade }}
                 </label>
               </div>
-              <div class="row">
+              <div id="bairro-endereco" class="row">
                 <label class="col">
                   <span class="font-weight-bold">Bairro:</span>
                   {{ bairro }}
                 </label>
               </div>
-              <div class="row">
+              <div id="endereco-endereco" class="row">
                 <label class="col">
                   <span class="font-weight-bold">Endereço:</span>
                   {{ endereco }}
                 </label>
               </div>
-              <div class="row">
+              <div id="numero-endereco" class="row">
                 <label class="col">
                   <span class="font-weight-bold">Nº:</span>
                   {{ numero }}
                 </label>
               </div>
-              <div class="row">
+              <div id="complemento-endereco" class="row">
                 <label class="col">
                   <span class="font-weight-bold">Complemento:</span>
                   {{ complemento }}
@@ -289,15 +273,15 @@
           <div class="card">
             <div class="card-header">Forma de Pagamento</div>
             <div class="card-body">
-              <div class="row">
+              <div id="metodo-pagamento" class="row">
                 <label class="col">
-                  <span class="font-weight-bold">Modalidade:</span>
+                  <span class="font-weight-bold">Método:</span>
                   {{ metodoPagamento }}
                 </label>
               </div>
-              <div class="row">
+              <div id="meio-pagamento" class="row">
                 <label class="col">
-                  <span class="font-weight-bold">Método:</span>
+                  <span class="font-weight-bold">Meio:</span>
                   {{ meioPagamento }}
                 </label>
               </div>
@@ -322,26 +306,22 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="produto in produtos" :key="produto.id">
+                    <tr v-for="produto in produtos" :key="produto.cotacaoId" :id="produto.cotacaoId">
                       <td>{{ produto.nome }}</td>
-                      <td class="text-right">{{ produto.quantidade }}</td>
-                      <td class="text-right">{{ produto.preco }}</td>
+                      <td class="quantidade text-right">{{ produto.quantidade }}</td>
+                      <td class="preco text-right">{{ produto.preco }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div class="text-right">
+              <div id="valor-total" class="text-right">
                 <h4>Valor total: {{ valorTotal }}</h4>
               </div>
             </div>
           </div>
           <div class="pt-2"></div>
           <div class="text-right">
-            <button
-              type="button"
-              class="btn btn-success"
-              @click="finalizarPedido()"
-            >
+            <button id="finalizar-pedido" type="button" class="btn btn-success" @click="finalizarPedido()">
               <i class="fa fa-shopping-cart"></i> Finalizar Pedido
             </button>
           </div>
@@ -354,13 +334,11 @@
 <script>
 import loja from "@/services/loja.js";
 import viacep from "@/services/viacep.js";
-import Swal from "sweetalert2";
 
 export default {
   data() {
     return {
-      step: 1, //1
-      info: "Carregando...",
+      step: 1,
       produtor: "",
       valorTotal: "",
       nome: "",
@@ -374,25 +352,22 @@ export default {
       metodoPagamento: "",
       meioPagamento: "",
       produtos: [],
-      metodosPagamento: [],
+      metodosPagamento: []
     };
   },
   created() {
     const that = this;
-    loja.getCheckout(191).then((response) => {
-      that.produtos = response.data.produtos || [];
-      if(!that.produtos.length){
-        that.info = "Carrinho vazio!";
-      }
+    loja.getCheckout(191).then(response => {
+      that.produtos = response.data.produtos;
 
-      if (that.produtos.length) {
+      if(that.produtos){
         that.produtos.map(
-          (p) =>
+          p =>
             (p.preco =
               "R$ " +
               p.preco.toLocaleString("pt-BR", {
                 maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
+                minimumFractionDigits: 2
               }))
         );
 
@@ -400,7 +375,7 @@ export default {
           "R$ " +
           response.data.valorTotal.toLocaleString("pt-BR", {
             maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
+            minimumFractionDigits: 2
           });
 
         that.metodosPagamento = response.data.metodosPagamento;
@@ -413,14 +388,14 @@ export default {
 
       viacep
         .buscaPorCep(this.cep)
-        .then((response) => {
+        .then(response => {
           const data = response.data;
           that.estado = data.uf;
           that.cidade = data.localidade;
           that.bairro = data.bairro;
           that.endereco = data.logradouro;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -432,36 +407,31 @@ export default {
     },
     getMeiosPagamento() {
       const metodo = this.metodosPagamento.find(
-        (m) => m.nome === this.metodoPagamento
+        m => m.nome === this.metodoPagamento
       );
       return metodo ? metodo.meiosPagamento : [];
     },
     finalizarPedido() {
       const that = this;
+      loja.postCheckout(
+        191,
+        {
+          "destinatario": that.nome,
+          "cep": that.cep,
+          "estado": that.estado,
+          "cidade": that.cidade,
+          "bairro": that.bairro,
+          "endereco": that.endereco,
+          "numero": that.numero,
+          "complemento": that.complemento,
+          "metodoPagamento": that.metodoPagamento,
+          "meioPagamento": that.meioPagamento
+        }
+      ).then(() => {
+        this.$toaster.success("Pedido enviado");
+      });
 
-      loja
-        .postCheckout(191, {
-          bairro: this.bairro,
-          cep: parseInt(this.cep),
-          cidade: this.cidade,
-          complemento: this.complemento,
-          destinatario: this.nome,
-          endereco: this.endereco,
-          estado: this.estado,
-          meioPagamento: this.meioPagamento,
-          metodoPagamento: this.metodoPagamento,
-          numero: parseInt(this.numero),
-        })
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: "Status",
-            text: "Pedido enviado para a análise!",
-          }).then(() => {
-            that.$router.push("/");
-          });
-        });
-    },
-  },
+    }
+  }
 };
 </script>
