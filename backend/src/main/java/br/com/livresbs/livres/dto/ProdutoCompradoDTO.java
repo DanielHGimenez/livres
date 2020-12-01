@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ProdutoCompradoDTO {
 
+    private Long id;
     private String nome;
     private BigDecimal preco;
     private Double quantidade;

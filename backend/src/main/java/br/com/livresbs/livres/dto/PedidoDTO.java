@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PedidoDTO {
 
+    private Long id;
     private BigDecimal valorTotal;
     private ConsumidorDTO consumidor;
     private List<ProdutoCompradoDTO> produtos;

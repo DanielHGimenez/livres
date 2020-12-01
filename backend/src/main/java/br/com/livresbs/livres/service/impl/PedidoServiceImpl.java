@@ -172,6 +172,7 @@ public class PedidoServiceImpl implements PedidoService {
         for (Pedido p: pedidos) {
             for (ItemPedido iten: p.getItemPedidos()) {
                 ProdutoCompradoDTO produto = new ProdutoCompradoDTO();
+                produto.setId(iten.getId());
                 produto.setNome(iten.getCotacao().getProduto().getNome());
                 produto.setPreco(iten.getCotacao().getProduto().getPreco());
                 produto.setQuantidade(iten.getQuantidade());
@@ -191,6 +192,7 @@ public class PedidoServiceImpl implements PedidoService {
                                 .build();
 
             PedidoDTO pedidoDTO = PedidoDTO.builder()
+                    .id(p.getId())
                     .consumidor(consumidorDTO)
                     .enderecoEntrega(enderecoEntregaDTO)
                     .metodoPagamento(p.getMetodoPagamento().getNome())
