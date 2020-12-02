@@ -25,13 +25,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="produto in produtos" :key="produto.id">
+                  <tr v-for="produto in produtos" :key="produto.cotacaoId" :id="produto.cotacaoId">
                     <td>{{ produto.nome }}</td>
                     <td>{{ produto.categoria }}</td>
                     <td class="text-right">{{ produto.preco }}</td>
                     <td style="cursor: pointer" class="text-center">
                       <input
-                        class="form-control form-control-sm text-right"
+                        class="form-control form-control-sm text-right qtd-produto-input"
                         autocomplete="off"
                         type="number"
                         min="0"
