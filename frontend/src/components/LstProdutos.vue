@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="row">
     <div class="col-md-8 col-sm-12 offset-md-2">
       <div class="card">
@@ -53,7 +53,7 @@
               <div class="col text-right">
                 <button
                   class="btn btn-primary"
-                  @click="$router.push('/carinho')"
+                  @click="$router.push('/carrinho')"
                 >
                   <i class="fa fa-shopping-basket" aria-hidden="true"></i> Ir
                   até o Carrinho

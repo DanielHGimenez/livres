@@ -176,7 +176,7 @@
           <form>
             <div class="pt-3"></div>
             <div class="select">
-              <select class="select-text" required v-model="metodoPagamento">
+              <select id="metodo" class="select-text" required v-model="metodoPagamento">
                 <option disabled selected></option>
                 <option
                   v-for="option in metodosPagamento"
@@ -193,7 +193,7 @@
             <div class="pt-3"></div>
             <div class="pt-3"></div>
             <div class="select" v-show="metodoPagamento">
-              <select class="select-text" required v-model="meioPagamento">
+              <select id="meio" class="select-text" required v-model="meioPagamento">
                 <option disabled selected></option>
                 <option
                   v-for="option in getMeiosPagamento()"
@@ -206,7 +206,7 @@
               </select>
               <span class="select-highlight"></span>
               <span class="select-bar"></span>
-              <label class="select-label">Forma de Pagamento:</label>
+              <label class="select-label">Meio de Pagamento:</label>
             </div>
             <div class="pt-3"></div>
             <div class="text-right">
@@ -215,6 +215,7 @@
                 <i class="fa fa-reply"></i>
               </button>
               <button
+                id="btn-continuar-pagamento"
                 type="button"
                 class="btn btn-primary"
                 @click="next()"
