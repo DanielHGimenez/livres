@@ -1,5 +1,6 @@
 package br.com.livresbs.livres.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,8 @@ public class EnderecoEntrega {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String destinatario;
+
     private Integer CEP;
     private String cidade;
     private String estado;
@@ -27,6 +30,7 @@ public class EnderecoEntrega {
     private String complemento;
 
     @ManyToMany(mappedBy = "enderecos")
+    @JsonBackReference
     private List<Consumidor> consumidores;
 
 }

@@ -2,6 +2,7 @@ package br.com.livresbs.livres.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,6 +44,7 @@ public class Consumidor {
         joinColumns = @JoinColumn(name = "consumidor_id"),
         inverseJoinColumns = @JoinColumn(name = "endereco_id")
     )
+    @JsonManagedReference
     private List<EnderecoEntrega> enderecos;
     
 }
