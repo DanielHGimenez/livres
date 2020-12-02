@@ -3,7 +3,7 @@ Dado('Entro no site livres da baixada santista') do
     visit 'http://livresbs.ga/'
     sleep(2)
 end
-# Aqui basicamente vai escolher os produtos e a quantidade,o find está buscando por id que é relacionado com id do produto no banco de dados e após isso coloquei a classe para identifcar
+# Aqui basicamente vai escolher os produtos e a quantidade,o find está buscando por id que é relacionado com id da cotação no banco de dados e após isso coloquei a classe para identifcar
 # e no set ele coloca a quantidade de produtos
 Quando('Escolho os produtos') do
     find_link(href: '/produtos').click
@@ -37,6 +37,6 @@ Entao('Faço uma compra') do
     
     find('#btn-continuar-pagamento').click
     
-    find('#finalizar-pedido').click
-    have_text('Pedido enviado')  
+    click_button('Finalizar Pedido')
+    have_text('Pedido enviado para a análise!')  
 end
